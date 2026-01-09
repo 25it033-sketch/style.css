@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Simple E-Commerce Store</title>
+<style>
+body { font-family: Arial; margin: 20px; }
+.product { border:1px solid #000; width:200px; padding:10px; margin:10px; display:inline-block; }
+img { width:100%; height:150px; object-fit:cover; }
+button { padding:8px; margin-top:10px; cursor:pointer; }
+#cart, #details { margin-top:20px; border:2px solid black; padding:10px; display:none; }
+</style>
+</head>
+<body>
+
+<h1>Simple E-Commerce Store</h1>
+
+<div id="products"></div>
+<div id="details"></div>
+<div id="cart"></div>
+
+<script>
+// Product data
+const products = [
+  {id:1, name:"Laptop", price:45000, image:"https://via.placeholder.com/150"},
+  {id:2, name:"Mobile", price:15000, image:"https://via.placeholder.com/150"},
+  {id:3, name:"Headphones", price:2000, image:"https://via.placeholder.com/150"}
+];
+
+// Display product list
+let pHTML = "";
+products.forEach(p=>{
+  pHTML += `<div class="product">
+              <img src="${p.image}">
+              <h3>${p.name}</h3>
+              <p>₹${p.price}</p>
+              <button onclick="viewDetails(${p.id})">View Details</button>
+           </div>`;
+});
+document.getElementById("products").innerHTML = pHTML;
+
+// View Product Details
+function viewDetails(id) {
+  const p = products.find(x=>x.id===id);
+  document.getElementById("details").style.display = "block";
+  document.getElementById("details").innerHTML =
+    `<h2>${p.name}</h2>
+     <img src="${p.image}">
+     <h3>Price: ₹${p.price}</h3>
+     <button onclick="addToCart(${id})">Add to Cart</button>`;
+}
+
+// Add to Cart
+let cartItem = null;
+function addToCart(id) {
+  cartItem = products.find(x=>x.id===id);
+  alert("Item added to cart!");
+  showCart();
+}
+
+// Display Cart
+function showCart() {
+  if (!cartItem) return;
+  document.getElementById("cart").style.display = "block";
+  document.getElementById("cart").innerHTML =
+    `<h2>Cart</h2>
+     <p>${cartItem.name} - ₹${cartItem.price}</p>
+     <button onclick="checkout()">Place Order</button>`;
+}
+
+// Fake Checkout
+function checkout() {
+  alert("Order Placed Successfully!");
+}
+</script>
+
+</body>
+</html>
